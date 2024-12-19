@@ -1,0 +1,1383 @@
+/* Import các font mới */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap');
+
+:root {
+    --tree-color: #1e5631;     /* Màu xanh lá đậm hơn và mềm mại hơn */
+    --tree-green: #1e5631;     /* Giữ lại cho các thành phần khác */
+    --trunk-color: #774936;    /* Màu nâu cho thân cây */
+    --trunk-dark: #3d1f0d;     /* Màu thân cây tối */
+    --trunk-light: #6b2f0d;    /* Màu thân cây sáng */
+    --gold: #ffd700;
+    --red: #ff0000;
+    --blue: #0066ff;
+    --silver: #c0c0c0;
+}
+
+/* Start Screen Styles */
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #263f5b 0%, #090a0f 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 1s ease, visibility 1s ease;
+    overflow: hidden;
+    position: relative; /* Đảm bảo các chấm được định vị đúng trong container */
+}
+
+/* Định nghĩa animation chớp tắt */
+@keyframes flicker {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.2; }
+}
+
+/* Lớp cho các chấm trắng trong start-screen */
+.start-screen-dot {
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    animation: flicker calc(var(--flicker-duration, 2s)) infinite;
+    opacity: 0.8;
+}
+
+.start-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.start-title {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-family: 'Mountains of Christmas', cursive;
+    animation: titleGlow 2s ease-in-out infinite;
+    z-index: 2;
+    position: relative;
+}
+
+/* Xóa hoặc comment out phần này */
+/* Enhanced Start Screen Styles */
+/*.start-screen {
+    background: linear-gradient(45deg, #003366, #006699);
+    position: relative;
+    overflow: hidden;
+}*/
+
+/* Floating Ornaments */
+.floating-ornament {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Snowflakes Container */
+.start-snowflakes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Decorative Border */
+.start-border {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    border-radius: 15px;
+    animation: borderGlow 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% { border-color: rgba(255, 215, 0, 0.3); }
+    50% { border-color: rgba(255, 215, 0, 0.8); }
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+}
+
+#startButton {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background: var(--tree-green);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    z-index: 2;
+    position: relative;
+}
+
+#startButton:hover {
+    transform: scale(1.1);
+    background: var(--gold);
+}
+
+/* Start Screen Stars */
+.start-star {
+    position: absolute;
+    background: linear-gradient(45deg, #ffa500, #ffdb4d); /* Màu vàng đậm hơn */
+    border-radius: 50%;
+    box-shadow: 
+        0 0 5px #ffa500,  /* Màu vàng đậm cho glow */
+        0 0 15px rgba(255, 165, 0, 0.6),
+        0 0 25px rgba(255, 165, 0, 0.4);
+    opacity: 0.7; /* Tăng opacity */
+    z-index: 0;
+    /* Thay đổi animation */
+    animation: starFall 3s linear infinite;
+}
+
+/* Thêm keyframes mới cho starFall */
+@keyframes starFall {
+    0% {
+        transform: translateY(-100px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Đảm bảo các phần tử khác nằm trên ngôi sao */
+.input-container, #startButton, .credit {
+    z-index: 2;
+    position: relative;
+}
+
+/* Animation Container Styles */
+.animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+    background: #fff; /* Thêm nền trắng cho container */
+}
+
+.animation-container.visible {
+    opacity: 1;
+    visibility: visible;
+    background: transparent; /* Cho phép nhìn thấy background của body */
+    transition: opacity 1s ease, background 2s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fcfafa; /* Bắt đầu với nền trắng */
+    overflow: hidden;
+    transition: background 2s ease; /* Thêm transition cho background */
+    transition: background-color 1s ease;
+
+}
+
+body.not-loaded {
+    background-color: #ffffff; /* Initial white background */
+}
+
+/* Add new class for dark background transition */
+.bg-dark-transition {
+    background: radial-gradient(ellipse at bottom, #2f64a1 0%, #090a0f 100%);
+}
+
+/* Stars in night sky */
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle 1s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.snow-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+#santa {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: 150px;
+}
+
+#tree {
+    width: 100vmin;
+    height: 95vmin;
+    /* Other styles */
+}
+
+.trunk {
+    fill: #3d2616;
+    stroke: #2a1a0f;
+    stroke-width: 2;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawTrunk 1.33s ease forwards;
+}
+
+.branch {
+    fill: var(--tree-color);
+    stroke: var(--tree-color);
+    stroke-width: 2;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+    filter: drop-shadow(0 0 5px rgba(30, 86, 49, 0.5));
+}
+
+.branch-1 { animation: drawBranch 2s ease forwards 0.33s; }
+.branch-2 { animation: drawBranch 2s ease forwards 0.67s; }
+.branch-3 { animation: drawBranch 2s ease forwards 1s; }
+.branch-4 { animation: drawBranch 2s ease forwards 1.33s; }
+
+.detail-branch {
+    fill: none;
+    stroke: var(--tree-dark);
+    stroke-width: 2;
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    animation: drawBranch 3s ease forwards 2.5s;
+}
+
+.star {
+    fill: var(--gold);
+    filter: drop-shadow(0 0 10px var(--gold));
+    opacity: 0;
+    transform-origin: center;
+    animation: appearStar 1.2s ease forwards 1.2s,
+            glowStar 2.4s ease-in-out infinite 2.4s;
+    animation: twinkle-star var(--twinkle-duration) infinite ease-in-out;
+    opacity: 0.8;
+}
+
+@keyframes twinkle-star {
+    0%, 100% { 
+        opacity: 0.8; 
+    }
+    50% { 
+        opacity: 0.2; 
+    }
+}
+
+.bauble {
+    opacity: 0;
+    transform-origin: center;
+    filter: drop-shadow(0 0 3px rgba(0,0,0,0.3));
+    animation: appear 0.6s ease forwards, blink 2.4s infinite;
+    /* Thêm blink 2s infinite để bauble chớp nháy */
+}
+
+.bauble.gold { fill: var(--gold); }
+.bauble.red { fill: var(--red); }
+.bauble.blue { fill: var(--blue); }
+.bauble.silver { fill: var(--silver); }
+
+.light {
+    fill: #fff;
+    opacity: 0;
+    animation: twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes drawTrunk {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawBranch {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes appearStar {
+    to {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes glowStar {
+    50% {
+        filter: drop-shadow(0 0 20px var(--gold));
+        transform: scale(1.2);
+    }
+}
+
+@keyframes twinkle {
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 5px #fff);
+    }
+}
+
+/* Snow animation */
+.snow {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: snowfall 10s linear infinite, appear 0.5s forwards;
+}
+
+.not-loaded * {
+    animation-play-state: paused !important;
+}
+
+.outline {
+    fill: none;
+    stroke: #333; /* Darker outline for better visibility on white */
+    stroke-width: 2;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    animation: draw 2s ease forwards;
+}
+
+.fill {
+    opacity: 0;
+    animation: fillIn 1s ease forwards;
+    animation-delay: 2s;
+}
+
+.trunk-fill { 
+    fill: var(--trunk-color);
+    background: linear-gradient(to right, var(--trunk-dark), var(--trunk-light));
+}
+
+/* Cập nhật màu cho các lớp lá */
+.tree-fill-1, 
+.tree-fill-2, 
+.tree-fill-3, 
+.tree-fill-4 { 
+    fill: var(--tree-color);
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    filter: url(#treeGlow);
+}
+
+/* Outline animations */
+.trunk-outline { animation: drawLine 0.4s ease forwards 0s; }
+.tree-outline-4 { animation: drawLine 0.4s ease forwards 2.4s; }
+.tree-outline-3 { animation: drawLine 0.4s ease forwards 1.8s; }
+.tree-outline-2 { animation: drawLine 0.4s ease forwards 1.2s; }
+.tree-outline-1 { animation: drawLine 0.4s ease forwards 0.6s; }
+
+/* Fill animations - start after outlines complete */
+.trunk-fill { animation: fillIn 0.4s ease forwards 0.4s; }
+.tree-fill-4 { animation: fillIn 0.4s ease forwards 2.4s; }
+.tree-fill-3 { animation: fillIn 0.4s ease forwards 2.8s; }
+.tree-fill-2 { animation: fillIn 0.4s ease forwards 3.2s; }
+.tree-fill-1 { animation: fillIn 0.4s ease forwards 3.6s; }
+
+/* Styles cho chậu cây */
+.pot-outline {
+    stroke: #5C3317;
+    stroke-width: 3;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 0.6s ease forwards 0s;
+    filter: url(#potShadow);
+}
+
+.pot-fill {
+    opacity: 0;
+    animation: fillIn 0.6s ease forwards 3s, potGlow 3s ease-in-out infinite 3.6s;
+}
+
+.pot-decor-outline {
+    stroke: #8B4513;
+    stroke-width: 3;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 0.5s ease forwards 0.2s;
+}
+
+@keyframes potGlow {
+    0%, 100% {
+        filter: brightness(1) drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    }
+    50% {
+        filter: brightness(1.2) drop-shadow(0 6px 8px rgba(0,0,0,0.4));
+    }
+}
+
+/* Điều chỉnh animation timing cho các phần khác */
+.trunk-outline { animation-delay: 0s; }
+.tree-outline-1 { animation-delay: 0.5s; }
+.tree-outline-2 { animation-delay: 1s; }
+.tree-outline-3 { animation-delay: 1.5s; }
+.tree-outline-4 { animation-delay: 2s; }
+
+@keyframes drawLine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fillIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translate(2%, 2%); /* Thêm hiệu ứng dịch chuyển nhẹ */
+        filter: brightness(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translate(0, 0);
+        filter: brightness(1);
+    }
+}
+
+@keyframes snowfall {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(100vh); }
+}
+
+@keyframes appear {
+    to { opacity: 0.8; }
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-100px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+@keyframes potGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+.merry-christmas {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Arial', sans-serif;
+    font-size: 4rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5),
+                0 0 20px rgba(255, 215, 0, 0.3); /* Added extra shadow for better visibility */
+    opacity: 0;
+    z-index: 2; /* Thêm dòng này để tăng z-index */
+    animation: textAppear 2.4s ease forwards 4.2s;
+    animation-delay: 4.2s; /* .Thời gian delay để xuất hiện sau các hoạt ảnh khác */
+}
+
+@keyframes textAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 50px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Dây đèn LED (ẩn đường dây) */
+.led-path {
+    fill: none;
+    stroke: none;
+}
+
+/* Đèn LED */
+.led-light {
+    fill: yellow; /* Màu mặc định, sẽ được ghi đè bởi JavaScript */
+    filter: drop-shadow(0 0 5px yellow);
+    animation: blinkLed 1.8s ease-in-out infinite;
+}
+
+@keyframes blinkLed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Trees Container Styles */
+.trees-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Thay đổi từ center thành flex-end */
+    gap: 20rem;
+    margin-top: 8vh; /* Thêm margin-bottom để cây cách bottom 10% */
+}
+
+/* Định dạng cho cây thông bên trái và bên phải */
+#tree-left, #tree-right {
+    width: 90vmin;
+    height: 105vmin;
+}
+
+/* Santa và Merry Christmas vẫn giữ nguyên */
+
+/* Các kiểu LED Lights cho mỗi cây */
+
+
+/* Volume Control Styles */
+.volume-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.volume-btn {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--tree-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.volume-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+#volumeSlider {
+    width: 100px;
+    height: 5px;
+  
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    outline: none;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--tree-green);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.input-container {
+    margin-bottom: 2rem;
+}
+
+/* Enhanced Input Container */
+.input-container {
+    position: relative;
+    margin: 30px 0;
+}
+
+#nameInput {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    color: #fff; /* Màu chữ tối */
+}
+
+#nameInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#nameInput:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.personalized-message {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem;
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    opacity: 0;
+    z-index: 2;
+    animation: textAppear 2s ease forwards;
+    animation-delay: 4s;
+}
+
+/* Letter Styles */
+.letter {
+    position: fixed;
+    top: 40%; /* Điều chỉnh từ 30% xuống thêm 5% */
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.82rem; /* Tăng 10% từ 1.65rem */
+    border-radius: 12px; /* Tăng 10% từ 11px */
+    box-shadow: 0 0 24px rgba(255, 215, 0, 0.3); /* Tăng 10% từ 22px */
+    min-width: 303px; /* Tăng 10% từ 275px */
+    max-width: 484px; /* Tăng 10% từ 440px */
+    z-index: 100;
+    opacity: 0;
+    animation: letterAppear 2.4s ease forwards 4.2s, borderGlow 3s ease-in-out infinite;
+    
+    /* Tăng độ dày viền từ 2px lên 4px */
+    border: 4px solid transparent;
+    
+    /* Điều chỉnh background-image để phù hợp với viền dày hơn */
+    background-image: 
+        linear-gradient(white, white),
+        linear-gradient(45deg, var(--gold), var(--red));
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    
+    /* Tăng hiệu ứng glow để phù hợp với viền dày hơn */
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    
+    /* Điều chỉnh animation nếu cần */
+    animation: letterAppear 2.4s ease forwards 4.2s, borderGlow 3s ease-in-out infinite;
+}
+
+/* Điều chỉnh keyframes nếu cần để phù hợp với viền dày hơn */
+@keyframes borderGlow {
+    0%, 100% {
+        border-color: var(--gold);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        border-color: #ffc107;
+        box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+    }
+}
+
+/* Letter Content Styles */
+.letter-content {
+    font-family: 'Quicksand', sans-serif;  /* Font chính cho nội dung */
+    color: #333;
+    line-height: 1.69;
+}
+
+.letter-header {
+    font-family: 'Cormorant Garamond', serif;  /* Font trang trọng cho phần header */
+    font-size: 1.57rem;
+    margin-bottom: 1.21rem;
+    color: var(--tree-green);
+    font-weight: 500;
+}
+
+.letter-body {
+    font-family: 'Lora', serif;  /* Font dễ đọc cho phần nội dung chính */
+    font-size: 1.33rem;
+    margin-bottom: 1.21rem;
+    text-align: justify;
+    max-height: 363px;
+    overflow-y: auto;
+    line-height: 1.8;  /* Tăng line-height cho dễ đọc */
+}
+
+.letter-footer {
+    font-family: 'Cormorant Garamond', serif;  /* Giống header để đồng bộ */
+    font-size: 1.33rem;
+    text-align: right;
+    color: var(--tree-green);
+    font-style: italic;  /* Thêm chút phong cách cho chữ ký */
+}
+
+/* Thêm import font Roboto từ Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.letter-content {
+    font-family: 'Dancing Script', cursive;
+    color: #333;
+    line-height: 1.69; /* Tăng 10% từ 1.54 */
+}
+
+.letter-header {
+    font-size: 1.57rem; /* Tăng 10% từ 1.43rem */
+    margin-bottom: 1.21rem; /* Tăng 10% từ 1.1rem */
+    color: var(--tree-green);
+}
+
+.letter-body {
+    font-size: 1.33rem; /* Tăng 10% từ 1.21rem */
+    margin-bottom: 1.21rem; /* Tăng 10% từ 1.1rem */
+    text-align: justify;
+    max-height: 363px; /* Tăng 10% từ 330px */
+    overflow-y: auto; /* Cho phép scroll nếu nội dung dài */
+}
+
+.letter-footer {
+    font-size: 1.33rem; /* Tăng 10% từ 1.21rem */
+    text-align: right;
+    color: var(--tree-green);
+}
+
+@keyframes letterAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    70% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Thêm font Dancing Script */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+/* Back Button Styles */
+.back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: var(--tree-green);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 4s;
+}
+
+.back-button:hover {
+    background: var(--gold);
+    transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.credit {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 5px rgba(10, 75, 10, 0.3);
+    z-index: 1000;
+    animation: fadeIn 1s ease forwards;
+}
+
+/* Credit Text Enhancement */
+.credit {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.made-by {
+    position: fixed;
+    bottom: 10px; /* Adjusted position */
+    left: 10px; /* Adjusted position */
+    color: var(--tree-green);
+    font-family: 'Dancing Script', cursive; /* Using existing font */
+    font-size: 1.2rem; /* Reduced font size */
+    z-index: 1000;
+    /* Optional: Add text shadow for better visibility */
+    text-shadow: 0 0 5px rgba(10, 75, 10, 0.3);
+}
+
+/* Star background styles */
+.star-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.twinkling-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+    opacity: 0;
+    transform: scale(var(--twinkle-scale, 1));
+}
+
+.twinkling-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #fff,
+                0 0 20px #fff;
+}
+
+@keyframes twinkle {
+    0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.2; 
+        transform: scale(1.5);
+    }
+}
+
+/* Device Selection Screen */
+.device-selection-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #28415e 0%, #090a0f 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    /* Add background styles similar to .start-screen if any */
+}
+
+.device-title {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.device-buttons {
+    display: flex;
+    gap: 2rem;
+}
+
+.device-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.device-btn svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    fill: currentColor;
+}
+
+.device-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .device-title {
+        font-size: 2rem;
+    }
+
+    .device-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .device-btn {
+        padding: 1rem;
+    }
+
+    .device-btn svg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Responsive Styles for Tablets and Mobile Devices */
+@media (max-width: 1024px) {
+    .start-title {
+        font-size: 2.5rem;
+    }
+    
+    #startButton {
+        padding: 0.8rem 1.6rem;
+        font-size: 1.2rem;
+    }
+    
+    .trees-container {
+        flex-direction: column;
+        gap: 10rem;
+    }
+
+    svg#tree-left, svg#tree-right {
+        width: 80vmin;
+        height: 85vmin;
+    }
+
+    #santa {
+        width: 120px;
+        height: 120px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .volume-control {
+        bottom: 15px;
+        right: 15px;
+        padding: 8px;
+    }
+
+    #volumeSlider {
+        width: 90px;
+    }
+
+    .letter {
+        min-width: 280px;
+        max-width: 450px;
+        padding: 1.5rem;
+    }
+
+    .merry-christmas {
+        font-size: 3rem;
+    }
+
+    .back-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .credit, .made-by {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .start-title {
+        font-size: 2rem;
+    }
+    
+    #startButton {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+    }
+    
+    .trees-container {
+        gap: 5rem;
+    }
+    
+    svg#tree-left, svg#tree-right {
+        width: 70vmin;
+        height: 75vmin;
+    }
+    
+    #santa {
+        width: 100px;
+        height: 100px;
+        top: 10px;
+        left: 10px;
+    }
+    
+    .volume-control {
+        bottom: 10px;
+        right: 10px;
+        padding: 5px;
+    }
+    
+    #volumeSlider {
+        width: 80px;
+    }
+    
+    .letter {
+        min-width: 250px;
+        max-width: 400px;
+        padding: 1rem;
+    }
+
+    .merry-christmas {
+        font-size: 2.5rem;
+    }
+
+    .back-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .credit, .made-by {
+        font-size: 1.1rem;
+    }
+}
+
+/* Ensure elements do not overflow horizontally */
+body, html {
+    overflow-x: hidden;
+}
+
+/* Adjust letter content for smaller screens */
+@media (max-width: 768px) {
+    .letter-content {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile-specific styles when 'mobile-device' class is present */
+/* body.mobile-device {
+    /* Adjustments for mobile */
+/*} */
+
+body.mobile-device .trees-container {
+    justify-content: center; /* Center the tree container */
+    flex-direction: column;  /* Stack elements vertically if needed */
+}
+
+body.mobile-device #tree-right {
+    display: none; /* Hide the right tree */
+}
+
+body.mobile-device #tree-left {
+    width: 85vw;     /* Adjust width for mobile */
+    height: auto;
+    margin: 0 auto;  /* Center the left tree */
+}
+
+body.mobile-device .letter {
+    width: 90vw;
+    /* ...other adjustments... */
+}
+
+body.mobile-device .merry-christmas {
+    font-size: 2rem;
+    /* ...other adjustments... */
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes starAppear {
+    from {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes starGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px gold);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px gold);
+    }
+}
+
+.heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #122f51 0%, #000000 100%);
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.heart-container.hidden {
+    display: none;
+}
+
+canvas#pinkboard {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.heart-container {
+    background-color: black;
+}
+
+.heart {
+    width: 20px; /* Example size */
+    height: 20px;
+    background: red;
+    margin: 5px;
+    clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 80%, 20% 100%, 0% 35%);
+    animation: floatHeart 5s infinite;
+}
+
+/* Cập nhật styles cho các phần của cây */
+.tree-fill-1, 
+.tree-fill-2, 
+.tree-fill-3, 
+.tree-fill-4 { 
+    fill: url(#tree3DGradient);
+    filter: url(#treeShadow);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* Thêm hiệu ứng 3D cho các tầng lá */
+.tree-fill-1 { transform: translateZ(20px); }
+.tree-fill-2 { transform: translateZ(15px); }
+.tree-fill-3 { transform: translateZ(10px); }
+.tree-fill-4 { transform: translateZ(5px); }
+
+/* Thêm animation cho chuyển động nhẹ */
+@keyframes treeWave {
+    0%, 100% { transform: rotateY(0deg); }
+    50% { transform: rotateY(2deg); }
+}
+
+.christmas-tree {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: treeWave 5s ease-in-out infinite;
+}
+
+/* Hiệu ứng highlight cho lá cây */
+.tree-highlight {
+    fill: url(#treeHighlight);
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+}
+
+/* Cải thiện đổ bóng cho toàn bộ cây */
+.christmas-tree {
+    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3));
+}
+
+/* Thêm độ sâu cho các quả châu */
+.bauble {
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+    transform-style: preserve-3d;
+}
+
+.bauble.gold { transform: translateZ(15px); }
+.bauble.red { transform: translateZ(10px); }
+.bauble.blue { transform: translateZ(5px); }
+.bauble.silver { transform: translateZ(8px); }
+
+.star-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.twinkling-star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle var(--twinkle-duration) infinite ease-in-out;
+    transform: scale(var(--twinkle-scale, 1));
+}
+
+@keyframes twinkle {
+    0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.2; 
+        transform: scale(1.5);
+    }
+}
+
+.star {
+    animation: flicker var(--flicker-duration) infinite alternate;
+    opacity: 0.8;
+}
+
+@keyframes flicker {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
+
+/* Hiệu ứng chuyển đổi nền màu */
+.bg-transition {
+    transition: background-color 1s ease;
+    background-color: #000000; /* Nền đen */
+}
+
+/* Đảm bảo rằng canvas cho trái tim phủ đầy màn hình và nằm phía sau các thành phần khác */
+#pinkboard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Cập nhật hoặc thêm các hoạt hình nếu cần */
+.heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Star Container Styles */
+.device-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Sparkling Star Styles */
+.device-stars .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.2; }
+}
+
