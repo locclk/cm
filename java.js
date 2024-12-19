@@ -1,6 +1,28 @@
 let player;
 let isMobileDevice = false;
 
+// filepath: /path/to/java.js
+// ...existing code...
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAy2WD2O1N7MUC0O3Fe7YOb4SWTyhBIg0s",
+    authDomain: "nguyenanh-42cc9.firebaseapp.com",
+    projectId: "nguyenanh-42cc9",
+    storageBucket: "nguyenanh-42cc9.firebasestorage.app",
+    messagingSenderId: "999875066379",
+    appId: "1:999875066379:web:ac18cc509d547b874e250e",
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  // Initialize Cloud Firestore
+  const db = firebase.firestore();
+  
+  // ...existing code...
+
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('backgroundMusic', {
         events: {
@@ -487,6 +509,27 @@ Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành côn
             
         }, 6000); // Đợi 4 giây sau khi cây được vẽ xong
     }
+
+    // Lưu tên vào Firestore
+    startButton.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+
+        if (name) {
+            db.collection('users').add({
+                name: name,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                console.log('Tên đã được lưu vào Firebase');
+                // Xử lý sau khi lưu thành công (nếu cần)
+            })
+            .catch((error) => {
+                console.error('Lỗi khi lưu tên vào Firebase: ', error);
+            });
+        } else {
+            alert('Vui lòng nhập tên của bạn');
+        }
+    });
 };
 
 function createSnow() {
