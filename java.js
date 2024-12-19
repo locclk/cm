@@ -510,22 +510,53 @@ Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành côn
         }, 6000); // Đợi 4 giây sau khi cây được vẽ xong
     }
 
-    // Lưu tên vào Firestore
+    // Hàm để chuyển đổi tên thành ID hợp lệ
+    function sanitizeName(name) {
+        return name
+            .toLowerCase() // Chuyển thành chữ thường
+            .normalize('NFD') // Phân tách dấu
+            .replace(/[\u0300-\u036f]/g, '') // Loại bỏ dấu
+            .replace(/[^a-z0-9]/g, ''); // Loại bỏ ký tự không phải chữ cái hoặc số
+    }
+
+    // Hàm để chuyển đổi tên thành ID hợp lệ với phần đuôi ngẫu nhiên
+    function generateUniqueId(name) {
+        const sanitized = sanitizeName(name);
+        const uniqueSuffix = Date.now(); // Hoặc sử dụng bất kỳ phương pháp tạo số ngẫu nhiên nào
+        return `${sanitized}_${uniqueSuffix}`;
+    }
+
+    // Lưu tên vào Firestore với ID tùy chỉnh không trùng lặp
     startButton.addEventListener('click', () => {
         const name = nameInput.value.trim();
 
         if (name) {
-            db.collection('users').add({
-                name: name,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                console.log('Tên đã được lưu vào Firebase');
-                // Xử lý sau khi lưu thành công (nếu cần)
-            })
-            .catch((error) => {
-                console.error('Lỗi khi lưu tên vào Firebase: ', error);
-            });
+            const sanitizedName = sanitizeName(name);
+
+            // Query Firestore to count existing documents with the same sanitizedName
+            db.collection('users').where('sanitizedName', '==', sanitizedName).get()
+                .then(querySnapshot => {
+                    const count = querySnapshot.size;
+                    const uniqueId = `${sanitizedName}${count}`;
+
+                    const docRef = db.collection('users').doc(uniqueId);
+
+                    docRef.set({
+                        name: name,
+                        sanitizedName: sanitizedName,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    })
+                    .then(() => {
+                        console.log(`Tên đã được lưu vào Firebase với ID ${uniqueId}.`);
+                        // Xử lý sau khi lưu thành công (nếu cần)
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi khi lưu tên vào Firebase: ', error);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Lỗi khi lấy dữ liệu từ Firebase: ', error);
+                });
         } else {
             alert('Vui lòng nhập tên của bạn');
         }
