@@ -739,6 +739,7 @@ function createStars() {
         star.style.left = `${Math.random() * 100}%`;
         star.style.top = `${Math.random() * 100}%`;
         star.style.animationDelay = `${Math.random() * 2}s`;
+        
         container.appendChild(star);
     }
 }
