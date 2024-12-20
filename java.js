@@ -22,6 +22,8 @@ const firebaseConfig = {
   
   // ...existing code...
 
+// Thêm biến để lưu lời nhắn
+let message;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('backgroundMusic', {
@@ -134,7 +136,22 @@ function createDeviceStars() {
 }
 
 // Initialize stars when the device selection screen is shown
-document.addEventListener('DOMContentLoaded', createDeviceStars);
+document.addEventListener('DOMContentLoaded', () => {
+    createDeviceStars();
+    
+    // Thêm sự kiện cho nút Start
+    const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+        const name = document.getElementById('nameInput').value;
+        message = document.getElementById('messageInput').value;
+        
+        // Xử lý với name và message
+        console.log(`Name: ${name}`);
+        console.log(`Message: ${message}`);
+        
+        // ...xử lý tiếp theo...
+    });
+});
 
 window.onload = () => {
     const deviceSelectionScreen = document.querySelector('.device-selection-screen');
@@ -526,40 +543,55 @@ Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành côn
         return `${sanitized}_${uniqueSuffix}`;
     }
 
-    // Lưu tên vào Firestore với ID tùy chỉnh không trùng lặp
+  
     startButton.addEventListener('click', () => {
-        const name = nameInput.value.trim();
-
-        if (name) {
-            const sanitizedName = sanitizeName(name);
-
-            // Query Firestore to count existing documents with the same sanitizedName
-            db.collection('users').where('sanitizedName', '==', sanitizedName).get()
-                .then(querySnapshot => {
-                    const count = querySnapshot.size;
-                    const uniqueId = `${sanitizedName}${count}`;
-
-                    const docRef = db.collection('users').doc(uniqueId);
-
-                    docRef.set({
-                        name: name,
-                        sanitizedName: sanitizedName,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    })
-                    .then(() => {
-                        console.log(`Tên đã được lưu vào Firebase với ID ${uniqueId}.`);
-                        // Xử lý sau khi lưu thành công (nếu cần)
-                    })
-                    .catch((error) => {
-                        console.error('Lỗi khi lưu tên vào Firebase: ', error);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Lỗi khi lấy dữ liệu từ Firebase: ', error);
-                });
-        } else {
-            alert('Vui lòng nhập tên của bạn');
+        const name = document.getElementById('nameInput').value.trim();
+        const message = document.getElementById('messageInput').value.trim();
+        
+        if (!name || !message) {
+            alert('Please enter both your name and message.');
+            return;
         }
+        
+        // Tìm tất cả document có cùng tên cơ bản
+        db.collection("users").where("baseName", "==", name).get()
+            .then((querySnapshot) => {
+                const count = querySnapshot.size;
+                // Tạo ID mới với index
+                const newDocId = count === 0 ? `${name}0` : `${name}${count}`;
+                
+                // Lưu document với ID mới
+                return db.collection("users").doc(newDocId).set({
+                    baseName: name,  // Lưu tên gốc để tìm kiếm
+                    name: name,
+                    message: message,
+                    index: count,    // Lưu index để dễ theo dõi
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            })
+            .then(() => {
+                console.log("Document successfully written!");
+                
+                // Xử lý tiếp theo sau khi lưu dữ liệu thành công
+                let userName = formatName(name);
+                const normalizedUserName = removeAccents(userName.toLowerCase());
+                document.querySelector('.recipient-name').textContent = userName;
+                
+                // Always start the tree animation
+                startTreeAnimation();
+                
+                // Only show heart animation for 'khanh'
+                if (normalizedUserName.includes('khanh')) {
+                    showHeartAnimation().then(() => {
+                        showLetter(normalizedUserName);
+                    });
+                } else {
+                    showLetter(normalizedUserName);
+                }
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
     });
 };
 

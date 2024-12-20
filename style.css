@@ -632,14 +632,44 @@ body.not-loaded {
     cursor: pointer;
 }
 
+/* Điều chỉnh để sắp xếp các input theo cột */
 .input-container {
-    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Tùy chọn: Căn giữa các input */
+    max-width: 800px; /* Tăng từ 600px lên 800px */
+    margin: 0 auto; /* Căn giữa container */
 }
 
-/* Enhanced Input Container */
-.input-container {
-    position: relative;
-    margin: 30px 0;
+#nameInput, #messageInput {
+    width: 100%; /* Đảm bảo chiều rộng đầy đủ */
+    max-width: 100%; /* Đảm bảo chiếm đầy container mới */
+    margin-bottom: 1rem; /* Khoảng cách dưới giữa các input */
+}
+
+/* Điều chỉnh trường nhập lời nhắn để lớn hơn và giống như một bức thư */
+#messageInput {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    width: 100%; /* Đảm bảo chiều rộng đầy đủ trong container */
+    height: 400px; /* Tăng chiều cao của textarea để làm khung lời nhắn dài hơn */
+    resize: vertical; /* Cho phép điều chỉnh chiều cao */
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    color: #fff;
+    margin-top: 1rem;
+}
+
+#messageInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#messageInput:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 #nameInput {
@@ -647,7 +677,7 @@ body.not-loaded {
     font-size: 1.2rem;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    width: 300px;
+    width: 400px;
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
