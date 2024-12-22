@@ -368,14 +368,14 @@ window.onload = () => {
 
     function showLetter(normalizedUserName) {
         let messageContent;
-        if (normalizedUserName.includes('khanh')) {
+        if (normalizedUserName.includes('nobody')) {
             messageContent = "Chúc Em có một mùa Giáng sinh an lành bên Người Thân, Bạn Bè và Anh!\n\nMong rằng mỗi khoảnh khắc của em đều tràn đầy niềm vui và hạnh phúc. Anh cảm ơn em vì đã làm cho cuộc sống của anh thêm ý nghĩa. Hy vọng rằng chúng ta sẽ cùng nhau trải qua nhiều Giáng Sinh vui vẻ và hạnh phúc hơn nữa. Chúc em có một mùa Giáng Sinh an lành, tràn ngập yêu thương và những điều tuyệt vời nhất. Anh yêu Em!";
         } else {
             // All other names get the same message as 'tan'
             const userName = document.querySelector('.recipient-name').textContent;
             messageContent = `Giáng sinh đã đến, chúc ${userName} có một giáng sinh vui vẻ bên gia đình và bạn bè!
     
-Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành công vui vẻ trong năm mới. Hy vọng rằng chúng ta sẽ vẫn là bạn bè, đồng hành cùng nhau trong nhiều giáng sinh tới!\n\n Chúc gia đình ${userName} cũng sẽ nhận được nhiều phúc lành từ chúa nha!\n\n Merry Christmas!`;
+Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành công vui vẻ trong năm mới. Hy vọng rằng chúng ta sẽ vẫn là bạn bè, đồng hành cùng nhau trong nhiều giáng sinh tới!\n\n Chúc gia đình ${userName} cũng sẽ nhận được nhiều phúc và may mắn nha!\n\n Merry Christmas!`;
         }
         
         document.querySelector('.letter-body').textContent = messageContent;
