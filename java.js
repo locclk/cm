@@ -375,7 +375,7 @@ window.onload = () => {
             const userName = document.querySelector('.recipient-name').textContent;
             messageContent = `Giáng sinh đã đến, chúc ${userName} có một giáng sinh vui vẻ bên gia đình và bạn bè!
     
-Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành công vui vẻ trong năm mới. Hy vọng rằng chúng ta sẽ vẫn là bạn bè, đồng hành cùng nhau trong nhiều giáng sinh tới!\n\n Chúc gia đình ${userName} cũng sẽ nhận được nhiều phúc và may mắn nha!\n\n Merry Christmas!`;
+Mong mọi điều tốt đẹp đến với bạn, mong ${userName} thành công vui vẻ trong năm mới. Hy vọng rằng chúng ta sẽ vẫn là bạn bè, đồng hành cùng nhau trong nhiều giáng sinh tới!\n\n Chúc gia đình ${userName} cũng sẽ hạnh phúc và có nhiều may mắn nha!\n\n Merry Christmas!`;
         }
         
         document.querySelector('.letter-body').textContent = messageContent;
